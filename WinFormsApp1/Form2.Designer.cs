@@ -16,8 +16,6 @@ namespace WinFormsApp1
         private Panel contentPanel;
         private TableLayoutPanel sectionsLayout;
         private FlowLayoutPanel actionPanel;
-        private readonly List<Control> patientFieldControls = new();
-        private readonly Dictionary<Control, int> patientFieldColumnSpans = new();
 
         protected override void Dispose(bool disposing)
         {
@@ -36,7 +34,6 @@ namespace WinFormsApp1
             patientPanel = new Panel();
             patientSectionLabel = new Label();
             patientFieldsLayout = new TableLayoutPanel();
-            nationalCodeTextBox = new TextBox();
             navigationPanel = new FlowLayoutPanel();
             contentPanel = new Panel();
             sectionsLayout = new TableLayoutPanel();
@@ -178,95 +175,5 @@ namespace WinFormsApp1
             ResumeLayout(false);
         }
 
-        private void AddPatientField(string labelText, out TextBox textBox, int column, int row, string placeholder, int columnSpan = 1, bool showCalendarButton = false)
-        {
-            var field = new TableLayoutPanel { ColumnCount = 1, RowCount = 2, Dock = DockStyle.Fill, Padding = new Padding(4, 0, 4, 0), RightToLeft = RightToLeft.Yes };
-            field.RowStyles.Add(new RowStyle(SizeType.Percent, 48F));
-            field.RowStyles.Add(new RowStyle(SizeType.Percent, 52F));
-            var label = new Label { Text = labelText, Dock = DockStyle.Fill, ForeColor = Color.FromArgb(43, 31, 118), Font = new Font("Tahoma", 8.5F, FontStyle.Bold), TextAlign = ContentAlignment.MiddleRight, RightToLeft = RightToLeft.Yes };
-            textBox = new TextBox { Dock = DockStyle.Fill, BorderStyle = BorderStyle.FixedSingle, PlaceholderText = placeholder, RightToLeft = RightToLeft.Yes, Margin = new Padding(0, 1, 0, 2) };
-            field.Controls.Add(label, 0, 0);
-            if (showCalendarButton)
-            {
-                var dateEntryPanel = new Panel { Dock = DockStyle.Fill, RightToLeft = RightToLeft.Yes, Margin = new Padding(0, 1, 0, 2) };
-                var calendarButton = new Button { Text = "▦", Dock = DockStyle.Left, Width = 30, FlatStyle = FlatStyle.Flat, ForeColor = Color.FromArgb(98, 38, 205), BackColor = Color.White, Margin = Padding.Empty, TabStop = false };
-                calendarButton.FlatAppearance.BorderColor = Color.FromArgb(210, 204, 240);
-                textBox.Dock = DockStyle.Fill;
-                textBox.Margin = Padding.Empty;
-                dateEntryPanel.Controls.Add(textBox);
-                dateEntryPanel.Controls.Add(calendarButton);
-                field.Controls.Add(dateEntryPanel, 0, 1);
-            }
-            else
-            {
-                field.Controls.Add(textBox, 0, 1);
-            }
-            patientFieldsLayout.Controls.Add(field, column, row);
-            patientFieldControls.Add(field);
-            if (columnSpan > 1)
-                patientFieldColumnSpans[field] = columnSpan;
-        }
-
-        private void AddChoiceField(string labelText, string[] choices, int column, int row)
-        {
-            var field = new TableLayoutPanel { ColumnCount = 1, RowCount = 2, Dock = DockStyle.Fill, Padding = new Padding(4, 0, 4, 0), RightToLeft = RightToLeft.Yes };
-            field.RowStyles.Add(new RowStyle(SizeType.Percent, 48F));
-            field.RowStyles.Add(new RowStyle(SizeType.Percent, 52F));
-            field.Controls.Add(new Label { Text = labelText, Dock = DockStyle.Fill, ForeColor = Color.FromArgb(43, 31, 118), Font = new Font("Tahoma", 8.5F, FontStyle.Bold), TextAlign = ContentAlignment.MiddleRight, RightToLeft = RightToLeft.Yes }, 0, 0);
-            var choicePanel = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.RightToLeft, WrapContents = false, RightToLeft = RightToLeft.Yes };
-            foreach (var choice in choices)
-                choicePanel.Controls.Add(new RadioButton { Text = choice, AutoSize = true, Margin = new Padding(3, 2, 6, 1), RightToLeft = RightToLeft.Yes });
-            field.Controls.Add(choicePanel, 0, 1);
-            patientFieldsLayout.Controls.Add(field, column, row);
-        }
-
-        private Button CreateNavigationButton(string text, Color? color = null)
-        {
-            var button = new Button
-            {
-                Text = text,
-                BackColor = color ?? Color.FromArgb(9, 74, 105),
-                ForeColor = Color.White,
-                FlatStyle = FlatStyle.Flat,
-                Font = new Font("Tahoma", 8F, FontStyle.Bold),
-                Dock = DockStyle.None,
-                Width = 215,
-                Height = 42,
-                Margin = new Padding(2),
-                Cursor = Cursors.Hand
-            };
-            button.FlatAppearance.BorderColor = Color.FromArgb(222, 226, 255);
-            button.FlatAppearance.BorderSize = 1;
-            button.Click += NavigationButton_Click;
-            return button;
-        }
-
-        private Control CreateSection(string title, string[] options, string detailLabel)
-        {
-            var card = new Panel { BackColor = Color.White, BorderStyle = BorderStyle.FixedSingle, Dock = DockStyle.Fill, Margin = new Padding(2), Padding = new Padding(6), RightToLeft = RightToLeft.Yes };
-            var layout = new TableLayoutPanel { ColumnCount = 1, RowCount = 3, Dock = DockStyle.Fill, RightToLeft = RightToLeft.Yes };
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
-            var titleLabel = new Label { Text = title, Dock = DockStyle.Fill, BackColor = Color.FromArgb(243, 238, 255), ForeColor = Color.FromArgb(74, 31, 167), Font = new Font("Tahoma", 9F, FontStyle.Bold), TextAlign = ContentAlignment.MiddleRight, Padding = new Padding(4, 0, 6, 0), RightToLeft = RightToLeft.Yes };
-            var optionsPanel = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.RightToLeft, WrapContents = true, AutoScroll = true, Padding = new Padding(2), RightToLeft = RightToLeft.Yes };
-            foreach (var option in options)
-                optionsPanel.Controls.Add(new CheckBox { Text = option, AutoSize = true, ForeColor = Color.FromArgb(36, 38, 67), Margin = new Padding(4, 2, 4, 2), RightToLeft = RightToLeft.Yes, Font = new Font("Tahoma", 8F) });
-            var detailBox = new TextBox { Dock = DockStyle.Fill, PlaceholderText = detailLabel, BorderStyle = BorderStyle.FixedSingle, RightToLeft = RightToLeft.Yes, Margin = new Padding(0, 2, 0, 0), Font = new Font("Tahoma", 8F) };
-            layout.Controls.Add(titleLabel, 0, 0);
-            layout.Controls.Add(optionsPanel, 0, 1);
-            layout.Controls.Add(detailBox, 0, 2);
-            card.Controls.Add(layout);
-            return card;
-        }
-
-        private Button CreateActionButton(string text, Color color, EventHandler handler)
-        {
-            var button = new Button { Text = text, BackColor = color, ForeColor = Color.White, FlatStyle = FlatStyle.Flat, Font = new Font("Tahoma", 8.5F, FontStyle.Bold), Width = 108, Height = 42, Margin = new Padding(3), Cursor = Cursors.Hand, RightToLeft = RightToLeft.Yes };
-            button.FlatAppearance.BorderSize = 0;
-            if (handler != null)
-                button.Click += handler;
-            return button;
-        }
     }
 }
