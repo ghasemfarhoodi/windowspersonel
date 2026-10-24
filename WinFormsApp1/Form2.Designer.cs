@@ -129,15 +129,6 @@ namespace WinFormsApp1
             patientFieldsLayout.RowCount = 2;
             patientFieldsLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             patientFieldsLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            AddPatientField("کد ملی", out nationalCodeTextBox, 0, 0, "کد ملی را وارد کنید");
-            AddPatientField("کد پرونده", out _, 1, 0, "شماره پرونده");
-            AddPatientField("نام", out _, 2, 0, "نام بیمار");
-            AddPatientField("نام خانوادگی", out _, 3, 0, "نام خانوادگی");
-            AddPatientField("تاریخ تولد", out _, 4, 0, "روز / ماه / سال", showCalendarButton: true);
-            AddChoiceField("جنسیت", new[] { "مرد", "زن" }, 0, 1);
-            AddChoiceField("وضعیت تأهل", new[] { "متأهل", "مجرد" }, 1, 1);
-            AddPatientField("شغل", out _, 2, 1, "شغل بیمار");
-            AddPatientField("شماره تماس", out _, 3, 1, "شماره تماس", columnSpan: 2);
             // navigationPanel
             navigationPanel.BackColor = Color.Transparent;
             navigationPanel.Dock = DockStyle.Fill;
@@ -147,13 +138,6 @@ namespace WinFormsApp1
             navigationPanel.FlowDirection = FlowDirection.RightToLeft;
             navigationPanel.WrapContents = true;
             navigationPanel.AutoScroll = false;
-            navigationPanel.Controls.Add(CreateNavigationButton("تشکیل پرونده", Color.FromArgb(245, 103, 35)));
-            navigationPanel.Controls.Add(CreateNavigationButton("علائم و حال عمومی"));
-            navigationPanel.Controls.Add(CreateNavigationButton("معاینات و پارامترها"));
-            navigationPanel.Controls.Add(CreateNavigationButton("کنترل قند خون"));
-            navigationPanel.Controls.Add(CreateNavigationButton("وضعیت سبک زندگی"));
-            navigationPanel.Controls.Add(CreateNavigationButton("داروها و تغییرات"));
-            navigationPanel.Controls.Add(CreateNavigationButton("برنامه و تصمیم امروز"));
             // contentPanel
             contentPanel.AutoScroll = true;
             contentPanel.BackColor = Color.Transparent;
@@ -173,12 +157,6 @@ namespace WinFormsApp1
             sectionsLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 34F));
             sectionsLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 33F));
             sectionsLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 33F));
-            sectionsLayout.Controls.Add(CreateSection("دخانیات و آلرژی", new[] { "مصرف دخانیات: هرگز", "مصرف دخانیات: سابق", "مصرف دخانیات: فعلی", "آلرژی دارویی: ندارد", "آلرژی دارویی: دارد" }, "توضیحات دخانیات و آلرژی"), 0, 0);
-            sectionsLayout.Controls.Add(CreateSection("سابقه خانوادگی و نوع دیابت", new[] { "دیابت", "بیماری قلبی", "فشار خون", "دیس‌لیپیدمی", "نوع یک", "نوع دو", "سایر" }, "شرح سابقه خانوادگی"), 1, 0);
-            sectionsLayout.Controls.Add(CreateSection("سابقه دیابت", new[] { "سابقه کتواسیدوز دیابتی یا قند بسیار بالا", "سابقه افت قند خون", "سابقه بستری به‌علت دیابت" }, "سال تشخیص / مدت بیماری"), 0, 1);
-            sectionsLayout.Controls.Add(CreateSection("بیماری‌های همراه", new[] { "فشار خون", "دیس‌لیپیدمی", "چاقی", "نارسایی قلب", "کبد چرب", "تیروئید", "کلیوی مزمن", "آپنه خواب", "سایر" }, "سایر بیماری‌های همراه"), 1, 1);
-            sectionsLayout.Controls.Add(CreateSection("عوارض دیابت", new[] { "رتینوپاتی چشم", "بیماری عروق کرونر", "زخم پای دیابتی", "نفروپاتی کلیه", "سکته مغزی", "بدون عارضه شناخته‌شده", "نوروپاتی اعصاب" }, "شرح عوارض"), 0, 2);
-            sectionsLayout.Controls.Add(CreateSection("درمان دیابت", new[] { "درمان با انسولین", "داروی خوراکی", "رژیم غذایی", "فعالیت بدنی" }, "سال شروع درمان"), 1, 2);
             // actionPanel
             actionPanel.BackColor = Color.White;
             actionPanel.Dock = DockStyle.Fill;
@@ -187,13 +165,8 @@ namespace WinFormsApp1
             actionPanel.FlowDirection = FlowDirection.LeftToRight;
             actionPanel.WrapContents = false;
             actionPanel.AutoScroll = false;
-            actionPanel.Controls.Add(CreateActionButton("حذف", Color.FromArgb(232, 62, 75), DeleteButton_Click));
-            actionPanel.Controls.Add(CreateActionButton("ذخیره", Color.FromArgb(101, 47, 210), SaveButton_Click));
-            actionPanel.Controls.Add(CreateActionButton("ویرایش", Color.FromArgb(101, 47, 210), null));
-            actionPanel.Controls.Add(CreateActionButton("جدید", Color.FromArgb(101, 47, 210), NewButton_Click));
             Controls.Add(rootLayout);
             Resize += Form2_Resize;
-            ArrangeResponsiveLayout();
             rootLayout.ResumeLayout(false);
             headerPanel.ResumeLayout(false);
             patientPanel.ResumeLayout(false);
